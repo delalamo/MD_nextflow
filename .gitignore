@@ -1,0 +1,6 @@
+examples
+examples/*
+.nextflow*
+work
+work/*
+work/**
