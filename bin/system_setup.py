@@ -1,17 +1,12 @@
 #!/usr/bin/env python3
 
 import sys
-
-print(f"Python Version: {sys.version}")
-
 import argparse
 import logging
 import os
 from sys import stdout
-
 import parmed
 from pdbfixer import PDBFixer
-
 import openmm
 from openmm import app
 
@@ -27,9 +22,7 @@ def parse_args():
     argparser.add_argument("-v", "--verbose", action="store_true")
     return argparser.parse_args()
 
-def fix_structure(
-        pdbfile_in: str,
-        pdbfile_out: str):
+def fix_structure(pdbfile_in: str, pdbfile_out: str):
     """
     Fixed PDB by adding loops and replacing nonstandard AAs with standard 
     equivalents (for example, selenomethionine to methionine).
@@ -93,9 +86,7 @@ def solvate_protein(
         integrator
     )
     simulation.context.setPositions(modeller.positions)
-
     simulation.minimizeEnergy()
-    
     positions = simulation.context.getState(getPositions=True).getPositions()
 
     app.PDBFile.writeFile(
@@ -116,23 +107,12 @@ def main():
     Main FXN
     """
     args = parse_args()
-    
     pdbfile, out_filename = args.input_pdb, args.output_pdb
-    if args.verbose:
-        logging.basicConfig(level=logging.DEBUG)
-
-    
+    if args.verbose: logging.basicConfig(level=logging.DEBUG)
+        
     temp_pdb_filename = f"fixed_{os.path.basename(pdbfile)}"
-
-    logging.debug("Adding missing residues and atoms")
     fix_structure(pdbfile, temp_pdb_filename)
-
-    logging.debug("Sovlating and minimizing model")
     simulation = solvate_protein(temp_pdb_filename, out_filename)
 
 if __name__ == "__main__":
     main()
-
-# docker run  --mount type=bind,source=/home/delalamo/md_nf_example,target=/home/md_nf_example --gpus all --runtime nvidia -i -t  054069cd59a6
-# python3 fix_w_implicit_solvent.py -i ../examples/2o7a.pdb -o out_test.pdb -n 500000
-# python -m openmm.testInstallation
