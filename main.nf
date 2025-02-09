@@ -1,6 +1,30 @@
 #!/usr/bin/env nextflow
 
-params.filename = "examples/2o7a.pdb"
+// params.filename = "examples/2o7a.pdb"
+params.filename = "my_antibody.pdb"
+params.h_seq = "EVQLVESGGGVVQPGGSLRLSCAASGFTFNSYGMHWVRQAPGKGLEWVAFIRYDGGNKYYADSVKGRFTISRDNSKNTLYLQMKSLRAEDTAVYYCANLKDSRYSGSYYDYWGQGTLVTVS"
+params.l_seq = "VIWMTQSPSSLSASVGDRVTITCQASQDIRFYLNWYQQKPGKAPKLLISDASNMETGVPSRFSGSGSGTDFTFTISSLQPEDIATYYCQQYDNLPFTFGPGTKVDFK"
+
+process fold_abb {
+    container 'abb2'
+
+    input:
+    val h_seq
+    val l_seq
+
+    output:
+    path "abb.pdb"
+
+    script:
+    """
+    #!/usr/bin/env python
+    from ImmuneBuilder import ABodyBuilder2
+    predictor = ABodyBuilder2()
+
+    antibody = predictor.predict({'H': "${h_seq}", 'L': "${l_seq}"})
+    antibody.save_single_unrefined("abb.pdb")
+    """
+}
 
 process system_setup {
     container 'openmm_gpu'
@@ -53,5 +77,5 @@ process system_run {
 }
 
 workflow {
-    system_setup(params.filename) | system_run | view
+    fold_abb(params.h_seq, params.l_seq) | system_setup | system_run | view
 }
