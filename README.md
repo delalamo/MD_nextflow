@@ -3,9 +3,9 @@ A dummy molecular dynamics pipeline stitched together in Nextflow for running MD
 
 To run:
 ```
-cd fold && docker buildx build . -t fold_abb
-cd openmm && docker buildx build . -t openmm_gpu
-cd gromacs && docker buildx build . -t gromacs_gpu
+cd modules/immunebuilder && docker buildx build . -t fold_abb
+cd modules/openmm && docker buildx build . -t openmm_gpu
+cd modules/gromacs && docker buildx build . -t gromacs_gpu
 nextflow run main.nf --filename example.pdb
 ```
 
