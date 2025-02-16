@@ -1,8 +1,9 @@
 # MD_nextflow
-A dummy molecular dynamics pipeline stitched together in Nextflow. This pipeline uses two Docker containers, one for OpenMM which fixes and solvates the system, and one for GROMACS where an unbiased production run is executed. Each can be built in the `openmm/` and `gromacs/` folders, respectively.
+A dummy molecular dynamics pipeline stitched together in Nextflow for running MD simulations on VH/VL antibodies. This pipeline uses three Docker containers: one for antibody structure prediction using ABodyBuilder2, one for OpenMM which fixes and solvates the system, and one for GROMACS where an unbiased production run is executed. Each can be built in the `fold/` `openmm/` and `gromacs/` folders, respectively.
 
 To run:
 ```
+cd fold && docker buildx build . -t fold_abb
 cd openmm && docker buildx build . -t openmm_gpu
 cd gromacs && docker buildx build . -t gromacs_gpu
 nextflow run main.nf --filename example.pdb
