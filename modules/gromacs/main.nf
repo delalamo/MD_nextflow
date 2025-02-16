@@ -1,4 +1,5 @@
 process system_run {
+    maxForks 1
     container 'gromacs_gpu:latest'
 
     input:
