@@ -33,7 +33,8 @@ RUN apt-get update \
 
 RUN conda install -c conda-forge openmm pdbfixer \
         && conda install -c bioconda anarci \
-        && python3 -m pip install ImmuneBuilder
+        && python3 -m pip install ImmuneBuilder \
+        && python3 -m pip install biopython
 RUN python3 -m pip install numpy==1.26.1
 RUN conda install scipy==1.13.0 -c conda-forge
 
