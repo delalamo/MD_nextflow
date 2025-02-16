@@ -35,7 +35,12 @@ RUN conda install -c conda-forge openmm pdbfixer \
         && conda install -c bioconda anarci \
         && python3 -m pip install ImmuneBuilder \
         && python3 -m pip install biopython
+
+# Roll back to older versions of numpy and scipy for compatibility
 RUN python3 -m pip install numpy==1.26.1
 RUN conda install scipy==1.13.0 -c conda-forge
+
+# Download NN weights
+RUN python3 -c 'from ImmuneBuilder import ABodyBuilder2; predictor = ABodyBuilder2()'
 
 CMD ["/bin/bash"]

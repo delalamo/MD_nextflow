@@ -4,11 +4,12 @@ include {get_cdrs    } from './modules/immunebuilder'
 include {system_setup} from './modules/openmm'
 include {system_run  } from './modules/gromacs'
 
-params.h_seq = "EVQLVESGGGVVQPGGSLRLSCAASGFTFNSYGMHWVRQAPGKGLEWVAFIRYDGGNKYYADSVKGRFTISRDNSKNTLYLQMKSLRAEDTAVYYCANLKDSRYSGSYYDYWGQGTLVTVS"
-params.l_seq = "VIWMTQSPSSLSASVGDRVTITCQASQDIRFYLNWYQQKPGKAPKLLISDASNMETGVPSRFSGSGSGTDFTFTISSLQPEDIATYYCQQYDNLPFTFGPGTKVDFK"
+params.csv_file = "example.csv"
 
 workflow {
-    fold_abb(params.h_seq, params.l_seq) | system_setup | system_run | view
-    //fold_abb(params.h_seq, params.l_seq) | get_cdrs | view
+    sequences = Channel.fromPath(params.csv_file)
+        .splitCsv(header: true, sep: ',')
+        .map { row -> tuple(row.heavy_chain, row.light_chain) }
+    fold_abb(sequences) | system_setup | system_run | view
 
 }

@@ -2,14 +2,14 @@ process fold_abb {
     container 'abb2'
 
     input:
-    val h_seq
-    val l_seq
+    tuple val(h_seq), val(l_seq)
 
     output:
     path pdbfile
 
     script:
-    pdbfile = "abb.pdb"
+    idx = String.format("%06d", task.index)
+    pdbfile = "${idx}.pdb"
     """
     #!/usr/bin/env python
     from ImmuneBuilder import ABodyBuilder2
