@@ -4,13 +4,10 @@ This repo contains a dummy molecular dynamics pipeline stitched together in Next
 To run:
 ```
 cd modules/immunebuilder && docker buildx build . -t abb2
-apptainer build abb2.sif docker-daemon://abb2:latest
 
 cd modules/openmm && docker buildx build . -t openmm_gpu
-apptainer build openmm_gpu.sif docker-daemon://openmm_gpu:latest
 
 cd modules/gromacs && docker buildx build . -t gromacs_gpu
-apptainer build gromacs_gpu.sif docker-daemon://gromacs_gpu:latest
 
 nextflow run main.nf --h_seq <VH sequence> --l_seq <VL sequence>
 ```
