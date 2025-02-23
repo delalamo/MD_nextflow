@@ -1,5 +1,5 @@
 # source: https://gromacs.bioexcel.eu/t/installation-error-with-plumed-v2-9-gromacs-23-2-install/7270
-FROM nvidia/cuda:12.0.0-base-ubuntu22.04
+FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
        apt-get install -y --no-install-recommends \
@@ -54,6 +54,9 @@ RUN git clone -b v2.9 https://github.com/plumed/plumed2.git                 && \
 ENV PATH=/opt/plumed/install/bin:$PATH
 ENV LD_LIBRARY_PATH=/opt/plumed/install/lib:$LD_LIBRARY_PATH
 
+ENV CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.0/
+ENV DGMX_CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.0/
+
 # Install GROMACS
 ARG gromacs=2023.2
 ARG gmx_prefix=gromacs-$gromacs
@@ -65,8 +68,10 @@ RUN wget -q http://ftp.gromacs.org/pub/gromacs/$gmx_prefix.tar.gz           && \
     cmake -DCMAKE_BUILD_TYPE=Release  \
           -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON \
           -DGMX_MPI=on -DGMX_SIMD=AVX2_256 -DGMX_GPU=CUDA                \   
+          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/ \
+          -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
           -DGMX_CUDA_TARGET_COMPUTE=80 ..                                   && \    
-    make -j 1                                                               && \
+    make -j 4                                                               && \
     make install                                                            && \
     cd ../..                                                                && \
     rm -r $gmx_prefix $gmx_prefix.tar.gz
