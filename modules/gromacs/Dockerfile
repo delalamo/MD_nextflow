@@ -1,5 +1,5 @@
 # source: https://gromacs.bioexcel.eu/t/installation-error-with-plumed-v2-9-gromacs-23-2-install/7270
-FROM nvidia/cuda:12.0.0-devel-ubuntu22.04
+FROM nvidia/cuda:12.3.0-devel-ubuntu22.04
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive \
        apt-get install -y --no-install-recommends \
@@ -44,9 +44,9 @@ RUN \
 RUN /sbin/ldconfig
 
 # Install PLUMED
-RUN git clone -b v2.9 https://github.com/plumed/plumed2.git                 && \
+RUN git clone -b v2.9.3 https://github.com/plumed/plumed2.git                 && \
     cd plumed2                                                              && \
-    git checkout fff0fa526                                                  && \
+    #git checkout fff0fa526                                                  && \
     ./configure CC=mpicc CXX=mpicxx --prefix=/opt/plumed/install            && \
     make -j 4                                                               && \
     make install
@@ -58,7 +58,7 @@ ENV CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.0/
 ENV DGMX_CUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.0/
 
 # Install GROMACS
-ARG gromacs=2023.2
+ARG gromacs=2024.3
 ARG gmx_prefix=gromacs-$gromacs
 RUN wget -q http://ftp.gromacs.org/pub/gromacs/$gmx_prefix.tar.gz           && \
     tar xf $gmx_prefix.tar.gz                                               && \
@@ -67,10 +67,10 @@ RUN wget -q http://ftp.gromacs.org/pub/gromacs/$gmx_prefix.tar.gz           && \
     mkdir build && cd build                                                 && \
     cmake -DCMAKE_BUILD_TYPE=Release  \
           -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON \
-          -DGMX_MPI=on -DGMX_SIMD=AVX2_256 -DGMX_GPU=CUDA                \   
+          -DGMX_MPI=on -DGMX_GPU=CUDA                \   
           -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/ \
           -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
-          -DGMX_CUDA_TARGET_COMPUTE=80 ..                                   && \    
+          -DGMX_CUDA_TARGET_COMPUTE=86 ..                                 && \    
     make -j 4                                                               && \
     make install                                                            && \
     cd ../..                                                                && \
