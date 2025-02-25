@@ -16,9 +16,9 @@ apptainer build ${NXF_APPTAINER_CACHEDIR}/openmm_gpu.img docker-daemon://openmm_
 cd modules/gromacs && docker buildx build . -t gromacs_gpu
 apptainer build ${NXF_APPTAINER_CACHEDIR}/gromacs_gpu.img docker-daemon://gromacs_gpu:latest
 
-nextflow run main.nf --h_seq <VH sequence> --l_seq <VL sequence>
+nextflow run main.nf --csv_file <path/to/csv_file.csv>
 ```
 
 ### TODO
-* ABodyBuilder2 does not model constant regions, which are important for enhanced sampling simulations - these will either need to be grafted on, or an alternative structure prediction method will need to be used. 
+* ABodyBuilder2 does not model constant regions, which are important for enhanced sampling simulations - these will either need to be grafted on, or an alternative structure prediction method such as ESMFold will need to be used. 
 * The big one is to add steps for PLUMED dihedral angle sampling.
