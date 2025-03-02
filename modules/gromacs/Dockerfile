@@ -82,5 +82,3 @@ ENV PKG_CONFIG_PATH=/usr/local/gromacs/lib/pkgconfig:$PKG_CONFIG_PATH
 ENV MANPATH=/usr/local/gromacs/share/man/:$MANPATH
 ENV PLUMED_KERNEL=/opt/plumed/install/lib/libplumedKernel.so
 ENV PLUMED_NUM_THREADS=8
-
-CMD ["/bin/bash"]
