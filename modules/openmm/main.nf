@@ -3,6 +3,7 @@ process system_setup {
 
     input:
     path inpath
+    path pdbpath
 
     output:
     path "SYSTEM.gro", emit: system_gro
@@ -10,6 +11,6 @@ process system_setup {
 
     script:
     """
-    system_setup.py -i ${inpath}
+    system_setup.py -i ${inpath} -o ${pdbpath}
     """
 }
