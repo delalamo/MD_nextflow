@@ -67,9 +67,9 @@ RUN wget -q http://ftp.gromacs.org/pub/gromacs/$gmx_prefix.tar.gz           && \
     mkdir build && cd build                                                 && \
     cmake -DCMAKE_BUILD_TYPE=Release  \
           -DGMX_BUILD_OWN_FFTW=ON -DREGRESSIONTEST_DOWNLOAD=ON \
-          -DGMX_MPI=on -DGMX_GPU=CUDA                \   
-          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda/ \
-          -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
+          -DGMX_MPI=ON -DGMX_GPU=CUDA                \   
+          -DCUDA_TOOLKIT_ROOT_DIR=/usr/local/cuda-12.3/ \
+          -DCMAKE_CUDA_COMPILER=/usr/local/cuda-12.3/bin/nvcc \
           -DGMX_CUDA_TARGET_COMPUTE=86 ..                                 && \    
     make -j 4                                                               && \
     make install                                                            && \

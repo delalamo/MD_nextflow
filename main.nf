@@ -12,10 +12,7 @@ process run_plumed {
     container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/gromacs_gpu.img"
 
     input:
-    path system_gro
-    path system_cpt
     path system_tpr
-    path system_top
 
     output:
     stdout
@@ -33,9 +30,7 @@ workflow {
     abb2_pdb = fold_abb(sequences)
     system_setup(abb2_pdb, Channel.fromPath(params.openmm_file))
     system_run(system_setup.out[0], system_setup.out[1])
-    gmx_gro = system_run.out[0]
-    gmx_cpt = system_run.out[1]
-    gmx_tpr = system_run.out[2]
-    run_plumed(gmx_gro, gmx_cpt, gmx_tpr, system_setup.out[1]) | view
+    gmx_tpr = system_run.out[0]
+    run_plumed(gmx_tpr) | view
 
 }
