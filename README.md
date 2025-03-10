@@ -20,5 +20,7 @@ nextflow run main.nf --csv_file <path/to/csv_file.csv>
 ```
 
 ### TODO
-* ABodyBuilder2 does not model constant regions, which are important for enhanced sampling simulations - these will either need to be grafted on, or an alternative structure prediction method such as ESMFold will need to be used. 
-* The big one is to add steps for PLUMED dihedral angle sampling.
+*Last updated 10 March 2025*
+* **Model VHHs**: I'd like to start with a simpler use case, VHHs, which don't have as many confounding properties (fewer CDR loops, no CH1).
+* **Model full Fab**: ABodyBuilder2 does not model constant regions, and the personal computer I am building this on has insufficient RAM and VRAM to support larger structure prediction models like   
+* **Add PLUMED**: The big one is to add steps for PLUMED dihedral angle sampling. Alternatively, since I am having trouble making a docker container that runs PLUMED with GROMACS on GPU, I can instead use Gaussian Accelerated MD with OpenMM, which has a github repo.
