@@ -28,8 +28,9 @@ process fold_vhh {
     path pdbfile
 
     script:
-    idx = String.format("%06d", task.index)
-    pdbfile = "${idx}.pdb"
+    //idx = String.format("%06d", task.index)
+    //pdbfile = "${idx}.pdb"
+    pdbfile = "vhh_out.pdb"
     """
     #!/usr/bin/env python
     from ImmuneBuilder import NanoBodyBuilder2
