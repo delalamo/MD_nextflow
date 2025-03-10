@@ -29,6 +29,7 @@ RUN \
             openmoltools \
             openmmtools \
             parmed \
+        && conda install mdanalysis mdaencore \
         && conda clean -afy
 
 RUN git clone https://github.com/MiaoLab20/gamd-openmm-examples.git \
