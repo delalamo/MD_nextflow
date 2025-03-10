@@ -18,6 +18,26 @@ process fold_abb {
     """
 }
 
+process fold_vhh {
+    container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/abb2.img"
+
+    input:
+    val(h_seq)
+
+    output:
+    path pdbfile
+
+    script:
+    idx = String.format("%06d", task.index)
+    pdbfile = "${idx}.pdb"
+    """
+    #!/usr/bin/env python
+    from ImmuneBuilder import NanoBodyBuilder2
+    predictor = NanoBodyBuilder2(numbering_scheme='aho')
+    predictor.predict({'H': "${h_seq}"}).save_single_unrefined("${pdbfile}")
+    """
+}
+
 process get_cdrs {
     container 'abb2'
 

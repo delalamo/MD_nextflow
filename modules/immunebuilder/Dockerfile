@@ -42,5 +42,6 @@ RUN conda install scipy==1.13.0 -c conda-forge
 
 # Download NN weights
 RUN python3 -c 'from ImmuneBuilder import ABodyBuilder2; predictor = ABodyBuilder2()'
+RUN python3 -c 'from ImmuneBuilder import NanoBodyBuilder2; predictor = NanoBodyBuilder2()'
 
 CMD ["/bin/bash"]

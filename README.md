@@ -16,7 +16,11 @@ apptainer build ${NXF_APPTAINER_CACHEDIR}/openmm_gpu.img docker-daemon://openmm_
 cd modules/gromacs && docker buildx build . -t gromacs_gpu
 apptainer build ${NXF_APPTAINER_CACHEDIR}/gromacs_gpu.img docker-daemon://gromacs_gpu:latest
 
-nextflow run main.nf --csv_file <path/to/csv_file.csv>
+# To run VH/VL antibodies
+nextflow run main_vhvl.nf --csv_file <path/to/csv_file.csv>
+
+# To run VHH nanobodies
+nextflow run main_vhh.nf --sequence QVQL....VTVSS
 ```
 
 ### TODO
