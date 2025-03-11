@@ -18,7 +18,7 @@ out_prefix = args.o
 universe = mda.Universe(pdbfile, trajfile)
 
 cluster_collection = mdaencore.clustering.cluster.cluster(
-    universe, method=mdaencore.clustering.ClusteringMethod.DBSCAN(eps=1.0), n_cores=4)
+    universe, method=mdaencore.clustering.ClusteringMethod.DBSCAN(eps=0.75), n_cores=4)
 
 outfiles = []
 for i, cluster in enumerate(cluster_collection):

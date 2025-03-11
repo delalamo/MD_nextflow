@@ -26,11 +26,11 @@
         <dt>0.002</dt> <!-- unit.picoseconds -->
         <friction-coefficient>1.0</friction-coefficient> <!-- unit.picoseconds**-1 -->
         <number-of-steps> <!-- quick test -->
-            <conventional-md-prep>2000</conventional-md-prep>
-            <conventional-md>10000</conventional-md>
-            <gamd-equilibration-prep>2000</gamd-equilibration-prep>
+            <conventional-md-prep>20000</conventional-md-prep>
+            <conventional-md>20000</conventional-md>
+            <gamd-equilibration-prep>20000</gamd-equilibration-prep>
             <gamd-equilibration>20000</gamd-equilibration>
-            <gamd-production>3000000</gamd-production>
+            <gamd-production>50000000</gamd-production> <!-- 500,000 iters per ns -->
             <averaging-window-interval>50</averaging-window-interval>
         </number-of-steps>
     </integrator>
@@ -54,13 +54,13 @@
 
         <reporting>
             <energy>
-                <interval>500</interval>
+                <interval>20000</interval>
             </energy>
             <coordinates>
                 <file-type>DCD</file-type>
             </coordinates>
             <statistics>
-                <interval>500</interval>
+                <interval>20000</interval>
             </statistics>
         </reporting>
     </outputs>
