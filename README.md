@@ -7,14 +7,10 @@ To run:
 export NXF_APPTAINER_CACHEDIR="/path/to/containers/directory"
 # also set this in .bashrc or .zshrc
 
+cd modules/gamd && docker buildx build . -t gamd
 cd modules/immunebuilder && docker buildx build . -t abb2
-apptainer build ${NXF_APPTAINER_CACHEDIR}/abb2.img docker-daemon://abb2:latest
-
 cd modules/openmm && docker buildx build . -t openmm_gpu
-apptainer build ${NXF_APPTAINER_CACHEDIR}/openmm_gpu.img docker-daemon://openmm_gpu:latest
-
 cd modules/gromacs && docker buildx build . -t gromacs_gpu
-apptainer build ${NXF_APPTAINER_CACHEDIR}/gromacs_gpu.img docker-daemon://gromacs_gpu:latest
 
 # To run VH/VL antibodies
 nextflow run main_vhvl.nf --csv_file <path/to/csv_file.csv>

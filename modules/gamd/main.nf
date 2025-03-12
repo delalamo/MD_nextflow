@@ -1,5 +1,5 @@
 process run_gamd {
-    container gamd:latest
+    container "gamd:latest"
 
     input:
     path pdbfile
