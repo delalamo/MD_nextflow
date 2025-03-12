@@ -1,5 +1,5 @@
 process system_setup_to_gmx {
-    container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/openmm_gpu.img"
+    container "openmm_gpu:latest"
 
     input:
     path inpath

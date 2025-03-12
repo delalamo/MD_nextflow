@@ -1,5 +1,5 @@
 process run_gamd {
-    container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/gamd.img"
+    container gamd:latest
 
     input:
     path pdbfile

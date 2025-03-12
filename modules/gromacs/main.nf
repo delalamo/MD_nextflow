@@ -1,6 +1,6 @@
 process system_run {
     maxForks 1
-    container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/gromacs_gpu.img"
+    container "gromacs_gpu:latest"
 
     input:
     path system_gro
