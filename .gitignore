@@ -4,3 +4,5 @@ examples/*
 work
 work/*
 work/**
+az.config
+openmm_out.pdb

@@ -1,5 +1,5 @@
 process fold_abb {
-    container "abb2:latest"
+    container "abb2"
 
     input:
     tuple val(h_seq), val(l_seq)
@@ -19,7 +19,7 @@ process fold_abb {
 }
 
 process fold_vhh {
-    container "file:///${System.getenv('NXF_APPTAINER_CACHEDIR')}/abb2.img"
+    container "abb2"
 
     input:
     val(h_seq)
