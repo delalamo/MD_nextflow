@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
-import sys
 import argparse
 import logging
 import os
+import sys
 from sys import stdout
-import parmed
-from pdbfixer import PDBFixer
+
 import openmm
+import parmed
 from openmm import app
+from pdbfixer import PDBFixer
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -51,7 +52,7 @@ def solvate_protein(
         negative_ion: str="Cl-",
         padding: float=1.0,
         temperature: float=300.0,
-        time_step_fs: float=0.002
+        time_step_fs: float=4.0
         ):
     """
     Solvates model and adds ions.
@@ -72,12 +73,14 @@ def solvate_protein(
         modeller.topology, 
         nonbondedMethod=app.PME,
         nonbondedCutoff=1*openmm.unit.nanometer,
+        hydrogenMass=4.0 * openmm.unit.amu,
+        constraints=app.AllBonds,
         rigidWater=False) # required to convert to gromacs
 
-    integrator = openmm.LangevinMiddleIntegrator(
+    integrator = openmm.LangevinIntegrator(
         temperature*openmm.unit.kelvin,
         1/openmm.unit.picosecond,
-        time_step_fs*openmm.unit.picoseconds
+        time_step_fs*openmm.unit.femtoseconds
     )
 
     simulation = app.Simulation(

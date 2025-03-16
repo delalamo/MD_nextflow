@@ -10,6 +10,6 @@ process run_gamd {
     script:
     """
     gamdRunner xml ${workflow.projectDir}/assets/gamd/gamd_test.xml
-    python3 ${workflow.projectDir}/assets/gamd/process_traj.py -i ${pdbfile} -t upper-dual/output.dcd -o out
+    python3 ${workflow.projectDir}/assets/gamd/process_traj.py -i ${pdbfile} -t gamd_out/output.dcd -o out
     """
 }

@@ -5,7 +5,7 @@
     <system>
         <nonbonded-method>PME</nonbonded-method>
         <nonbonded-cutoff>1.0</nonbonded-cutoff> <!-- unit.nanometers -->
-        <constraints>HBonds</constraints>
+        <constraints>AllBonds</constraints>
     </system>
 
     <barostat>
@@ -17,20 +17,21 @@
 
     <integrator>
         <algorithm>langevin</algorithm>
-        <boost-type>upper-dual</boost-type>
+        <boost-type>lower-dual</boost-type>
         <sigma0>
             <primary>6.0</primary> <!-- unit.kilocalories_per_mole -->
             <secondary>6.0</secondary> <!-- unit.kilocalories_per_mole -->
         </sigma0>
         <random-seed>0</random-seed>
-        <dt>0.002</dt> <!-- unit.picoseconds -->
+        <dt>0.004</dt> <!-- unit.picoseconds -->
         <friction-coefficient>1.0</friction-coefficient> <!-- unit.picoseconds**-1 -->
         <number-of-steps> <!-- quick test -->
-            <conventional-md-prep>2000</conventional-md-prep>
+            <conventional-md-prep>2000</conventional-md-prep> <!-- doesn't count for # steps-->
             <conventional-md>10000</conventional-md>
             <gamd-equilibration-prep>2000</gamd-equilibration-prep>
             <gamd-equilibration>20000</gamd-equilibration>
-            <gamd-production>500000</gamd-production> <!-- 500,000 iters per ns -->
+            <gamd-production>2000000</gamd-production> <!-- 500,000 iters per ns -->
+
             <averaging-window-interval>50</averaging-window-interval>
         </number-of-steps>
     </integrator>
@@ -49,7 +50,7 @@
     </input-files>
 
     <outputs>
-        <directory>upper-dual/</directory>
+        <directory>gamd_out/</directory>
         <overwrite-output>True</overwrite-output>
 
         <reporting>
