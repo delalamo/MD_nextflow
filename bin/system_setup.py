@@ -52,7 +52,7 @@ def solvate_protein(
         negative_ion: str="Cl-",
         padding: float=1.0,
         temperature: float=300.0,
-        time_step_fs: float=4.0
+        time_step_fs: float=2.0
         ):
     """
     Solvates model and adds ions.
@@ -73,11 +73,10 @@ def solvate_protein(
         modeller.topology, 
         nonbondedMethod=app.PME,
         nonbondedCutoff=1*openmm.unit.nanometer,
-        hydrogenMass=4.0 * openmm.unit.amu,
-        constraints=app.AllBonds,
+        constraints=app.HBonds,
         rigidWater=False) # required to convert to gromacs
 
-    integrator = openmm.LangevinIntegrator(
+    integrator = openmm.LangevinMiddleIntegrator(
         temperature*openmm.unit.kelvin,
         1/openmm.unit.picosecond,
         time_step_fs*openmm.unit.femtoseconds
