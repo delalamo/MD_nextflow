@@ -3,10 +3,6 @@ This repo contains a dummy molecular dynamics pipeline stitched together in Next
 
 To run:
 ```bash
-# set this to configure where local images should be read from
-export NXF_APPTAINER_CACHEDIR="/path/to/containers/directory"
-# also set this in .bashrc or .zshrc
-
 cd modules/gamd && docker buildx build . -t gamd
 cd modules/immunebuilder && docker buildx build . -t abb2
 cd modules/openmm && docker buildx build . -t openmm_gpu
