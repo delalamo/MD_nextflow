@@ -20,7 +20,6 @@ nextflow run main_vhh.nf --sequence QVQL....VTVSS
 ```
 
 ### TODO
-*Last updated 10 March 2025*
-* **Model VHHs**: I'd like to start with a simpler use case, VHHs, which don't have as many confounding properties (fewer CDR loops, no CH1).
-* **Model full Fab**: ABodyBuilder2 does not model constant regions, and the personal computer I am building this on has insufficient RAM and VRAM to support larger structure prediction models like   
-* **Add PLUMED**: The big one is to add steps for PLUMED dihedral angle sampling. Alternatively, since I am having trouble making a docker container that runs PLUMED with GROMACS on GPU, I can instead use Gaussian Accelerated MD with OpenMM, which has a github repo.
+*Last updated 16 March 2025*
+* Remove HMR after enhanced sampling and clustering
+* Add independent MD runs after clustering
