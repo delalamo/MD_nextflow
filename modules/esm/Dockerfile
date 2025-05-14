@@ -31,20 +31,19 @@ RUN apt-get update \
         libopenblas-dev \
         pkg-config
 
-RUN python3 -m pip install fair-esm
+RUN python3 -m pip install fair-esm biopython
 
 # Roll back to older versions of numpy and scipy for compatibility
 RUN python3 -m pip install numpy==1.26.1
 RUN conda install scipy==1.13.0 -c conda-forge
 
 # Download NN weights
-# RUN python3 -c 'from ImmuneBuilder import ABodyBuilder2; predictor = ABodyBuilder2()'
-# RUN python3 -c 'from ImmuneBuilder import NanoBodyBuilder2; predictor = NanoBodyBuilder2()'
+# This is extremely expensive and might need to be broken up into separate containers
 RUN python -c 'import esm; esm.pretrained.esm2_t33_650M_UR50D()'
 RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_1()'
-RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_2()'
-RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_3()'
-RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_4()'
-RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_5()'
+# RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_2()'
+# RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_3()'
+# RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_4()'
+# RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_5()'
 
 CMD ["/bin/bash"]
