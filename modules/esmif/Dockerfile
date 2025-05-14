@@ -64,7 +64,7 @@ RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda activate inverse && pip install --no-cache-dir git+https://github.com/facebookresearch/esm.git && \
     rm -rf ~/.cache/pip
 
-RUN . /opt/conda/etc/profile.d/conda.sh && conda activate inverse && python3 -m pip install numpy==1.26.1
+RUN . /opt/conda/etc/profile.d/conda.sh && conda activate inverse && python3 -m pip install numpy==1.26.1 python-dateutil biopython pandas
 RUN . /opt/conda/etc/profile.d/conda.sh && conda activate inverse && conda install scipy==1.13.0 -c conda-forge
 
 # Download pre-trained ESM model weights
@@ -85,6 +85,7 @@ RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate inverse" >> ~/.bashrc
 
 RUN cd / && git clone https://github.com/varun-shanker/structural-evolution.git
+RUN chmod 755 /structural-evolution/bin/*
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
