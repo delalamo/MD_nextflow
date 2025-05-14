@@ -31,7 +31,7 @@ RUN apt-get update \
         libopenblas-dev \
         pkg-config
 
-RUN python3 -m pip install fair-esm biopython
+RUN python3 -m pip install fair-esm biopython pandas
 
 # Roll back to older versions of numpy and scipy for compatibility
 RUN python3 -m pip install numpy==1.26.1
@@ -39,8 +39,9 @@ RUN conda install scipy==1.13.0 -c conda-forge
 
 # Download NN weights
 # This is extremely expensive and might need to be broken up into separate containers
-RUN python -c 'import esm; esm.pretrained.esm2_t33_650M_UR50D()'
-RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_1()'
+RUN mkdir -p /dl_model_cache
+RUN python -c 'import esm, torch; torch.hub.set_dir("/dl_model_cache"); esm.pretrained.esm2_t33_650M_UR50D()'
+RUN python -c 'import esm, torch; torch.hub.set_dir("/dl_model_cache"); esm.pretrained.esm1v_t33_650M_UR90S_1()'
 # RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_2()'
 # RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_3()'
 # RUN python -c 'import esm; esm.pretrained.esm1v_t33_650M_UR90S_4()'
