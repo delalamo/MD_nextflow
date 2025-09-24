@@ -1,46 +1,47 @@
+# Base image with CUDA 12.0
 FROM nvidia/cuda:12.0.0-base-ubuntu22.04
 
+# Set working directory
 WORKDIR /home
-# base OS packages
-RUN apt-get update && apt-get install -yq \
+
+# Install base OS packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         bzip2 \
         wget \
         csh \
-        git
+        git \
+    && rm -rf /var/lib/apt/lists/*
 
-# conda
-RUN wget --quiet https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+# Install Miniconda
+RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b -p /opt/conda \
-    && rm -v Miniconda3-latest-Linux-x86_64.sh
+    && rm Miniconda3-latest-Linux-x86_64.sh
 
 ENV PATH="/opt/conda/bin:$PATH"
 
-# Accept ToS and update conda
+# Accept Conda Terms of Service
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
     && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 
-# Install all packages in one environment with compatible Python
-RUN . /opt/conda/etc/profile.d/conda.sh \
-    && conda create -n gamd-env python=3.12 -c conda-forge -c omnia \
-        openmm=8.3 \
-        pdbfixer \
-        openmoltools \
-        openmmtools \
-        parmed \
-        mdanalysis \
-        mdaencore \
-        cuda-version=12.0 \
-    && conda clean -afy
+# Create Conda environment with all packages in one step
+RUN . /opt/conda/etc/profile.d/conda.sh && \
+    conda create -n gamd-env -c conda-forge -c omnia python=3.12 \
+        openmm=8.3 pdbfixer openmoltools openmmtools parmed mdanalysis mdaencore cuda-version=12.0 -y && \
+    conda clean -afy
 
+# Activate environment by default
+ENV PATH="/opt/conda/envs/gamd-env/bin:$PATH"
 
-# Clone repositories
+# Clone required repositories
 RUN git clone https://github.com/MiaoLab20/gamd-openmm-examples.git \
-    && git clone https://github.com/MiaoLab20/PyReweighting.git
-RUN git clone https://github.com/MiaoLab20/gamd-openmm.git \
+    && git clone https://github.com/MiaoLab20/PyReweighting.git \
+    && git clone https://github.com/MiaoLab20/gamd-openmm.git \
     && cd gamd-openmm \
     && python3 setup.py install
 
+# Set PATH to include local scripts
 ENV PATH="/opt/conda/envs/gamd-env/bin:/home/gamd-openmm:$PATH"
 
+# Default command
 CMD ["/bin/bash"]
