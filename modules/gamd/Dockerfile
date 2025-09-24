@@ -1,5 +1,5 @@
-# Base image with CUDA 12.0
-FROM nvidia/cuda:12.0.0-base-ubuntu22.04
+# Base image with CUDA 12.6
+FROM nvidia/cuda:12.6.0-base-ubuntu22.04
 
 # Set working directory
 WORKDIR /home
@@ -27,7 +27,7 @@ RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkg
 # Create Conda environment with all packages in one step
 RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda create -n gamd-env -c conda-forge -c omnia python=3.12 \
-        openmm=8.3 pdbfixer openmoltools openmmtools parmed mdanalysis mdaencore cuda-version=12.0 -y && \
+        openmm=8.3 pdbfixer openmoltools openmmtools parmed mdanalysis mdaencore cuda-version=12.6 -y && \
     conda clean -afy
 
 # Activate environment by default
