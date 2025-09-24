@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.8.0-base-ubuntu22.04
+FROM nvidia/cuda:12.0.0-base-ubuntu22.04
 
 WORKDIR /home
 # base OS packages
@@ -18,17 +18,21 @@ ENV PATH="/opt/conda/bin:$PATH"
 
 # Accept ToS and update conda
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main \
-    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r \
-    && conda update --quiet --yes conda
+    && conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 
-# Install packages
+# Install all packages in one environment with compatible Python
 RUN . /opt/conda/etc/profile.d/conda.sh \
-    && conda config --add channels conda-forge \
-    && conda install -c conda-forge openmm=8.2 cuda-version=11.8 \
-    && conda install -c conda-forge pdbfixer \
-    && conda install -c omnia openmoltools openmmtools parmed \
-    && conda install mdanalysis mdaencore \
+    && conda create -n gamd-env python=3.12 -c conda-forge -c omnia \
+        openmm=8.3 \
+        pdbfixer \
+        openmoltools \
+        openmmtools \
+        parmed \
+        mdanalysis \
+        mdaencore \
+        cuda-version=12.0 \
     && conda clean -afy
+
 
 # Clone repositories
 RUN git clone https://github.com/MiaoLab20/gamd-openmm-examples.git \
@@ -37,6 +41,6 @@ RUN git clone https://github.com/MiaoLab20/gamd-openmm.git \
     && cd gamd-openmm \
     && python3 setup.py install
 
-ENV PATH="/opt/conda/bin:/home/gamd-openmm:$PATH"
+ENV PATH="/opt/conda/envs/gamd-env/bin:/home/gamd-openmm:$PATH"
 
 CMD ["/bin/bash"]
