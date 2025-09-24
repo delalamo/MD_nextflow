@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.0.0-base-ubuntu22.04
+FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 WORKDIR /home
 # base OS packages
@@ -24,7 +24,7 @@ RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkg
 # Install packages
 RUN . /opt/conda/etc/profile.d/conda.sh \
     && conda config --add channels conda-forge \
-    && conda install -c conda-forge openmm cuda-version=12.0 \
+    && conda install -c conda-forge openmm=8.2 cuda-version=11.8 \
     && conda install -c conda-forge pdbfixer \
     && conda install -c omnia openmoltools openmmtools parmed \
     && conda install mdanalysis mdaencore \
