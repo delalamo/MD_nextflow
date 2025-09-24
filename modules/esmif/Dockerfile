@@ -69,11 +69,13 @@ RUN . /opt/conda/etc/profile.d/conda.sh && conda activate inverse && conda insta
 
 # Download pre-trained ESM model weights
 # This command needs to run within the 'inverse' conda environment
-RUN mkdir -p /dl_model_cache
+RUN mkdir /dl_model_cache
+RUN mkdir -p ~/.cache/torch/hub/checkpoints/
 RUN . /opt/conda/etc/profile.d/conda.sh && \
     conda activate inverse && \
     echo "INFO: Downloading ESM pre-trained model..." && \
     python -c 'import esm, torch; torch.hub.set_dir("/dl_model_cache"); esm.pretrained.esm_if1_gvp4_t16_142M_UR50()'
+RUN chmod 755 /dl_model_cache/checkpoints/*
 
 # Configure bash to automatically activate the "inverse" conda environment upon login
 RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
@@ -84,8 +86,6 @@ RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
 RUN echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate inverse" >> ~/.bashrc
 
-RUN cd / && git clone https://github.com/varun-shanker/structural-evolution.git
-RUN chmod 755 /structural-evolution/bin/*
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
